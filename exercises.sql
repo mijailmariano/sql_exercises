@@ -64,3 +64,43 @@ SELECT DISTINCT CITY
 SELECT DISTINCT CITY
     FROM STATION
         WHERE RIGHT(CITY, 1) NOT IN ('a', 'e', 'i', 'o', 'u');
+
+
+-- Query_006 the list of CITY names from STATION that either do not start with vowels or do not end with vowels. 
+-- Your result cannot contain duplicates.
+
+-- SOLUTION
+SELECT DISTINCT CITY
+    FROM STATION
+        WHERE CITY NOT RLIKE '^[aeiou]'
+            OR CITY NOT REGEXP '[aeiou]$'
+
+----
+-- date: wednesday, october 12th 2022
+
+-- Query_007 the list of CITY names from STATION that do not start with vowels and do not end with vowels. 
+-- Your result cannot contain duplicates.
+
+SELECT DISTINCT CITY
+    FROM STATION
+        WHERE CITY NOT REGEXP '[aeiou]$'
+            AND CITY NOT RLIKE '^[aeiou]';
+
+-- Query_008 the Name of any student in STUDENTS who scored higher than 75 Marks. 
+-- Order your output by the last three characters of each name. 
+-- If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), 
+-- secondary sort them by ascending ID.
+
+SELECT Name
+    FROM STUDENTS
+        WHERE Marks > 75
+            ORDER BY RIGHT(Name, 3), ID;
+
+
+-- Query_009 Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
+
+SELECT name
+    FROM Employee
+        ORDER BY name;
+
+
