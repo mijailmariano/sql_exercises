@@ -115,17 +115,35 @@ SELECT name
 -- Not A Triangle: The given values of A, B, and C don't form a triangle.
 
 -- using a "CASE" function/method
--- SELECT CASE 
---     WHEN (A + B <= C) OR (A + C <= B) OR (B + C <= A) THEN "Not A Triangle"
---     WHEN (A = B) AND (B = C) THEN "Equilateral",
---     WHEN (A = B) OR (A = C) OR (B = C) THEN "Isosceles"
---     ELSE "Scalene"
--- END tuple
--- FROM TRIANGLES;
+SELECT
+    CASE
+    WHEN ((A + B <= C) OR (B + C <= A) OR (A + C <= B)) THEN 'Not A Triangle'
+    WHEN ((A = B) AND (B = C)) THEN 'Equilateral'
+    WHEN ((A = B ) OR (B = C ) OR (C = A)) THEN 'Isosceles'
+    ELSE 'Scalene'
+    END
+FROM TRIANGLES;
 
 -- using "IF" "ELSE" statements
 SELECT IF(A + B <= C OR B + C <= A OR A + C <= B, "Not A Triangle",
         IF(A = B AND B = C, "Equilateral",
         IF(A = B OR B = C OR A = C, "Isosceles", "Scalene")))
 FROM TRIANGLES;
+
+-- Generate the following two result sets:
+'''
+1. Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical 
+(i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
+2. Query the number of ocurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format
+'''
+
+SELECT 
+-- CASE or IF, THEN to print the individuals name and first letter of profession in parenthesis
+    CASE
+        WHEN (Occupation = "Doctor") THEN (Name) "(D)"
+        WHEN (Occupation = "Professor") THEN (Name) "(P)"
+        WHEN (Occupation = "Singer") THEN (Name) "(S)"
+        WHEN (Occupation = "Actor") THEN (Name) "(A)"
+        END as name_and_profession
+    (CASE )
         
