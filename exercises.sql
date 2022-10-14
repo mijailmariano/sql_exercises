@@ -137,13 +137,19 @@ FROM TRIANGLES;
 2. Query the number of ocurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format
 '''
 
-SELECT 
+(SELECT 
 -- CASE or IF, THEN to print the individuals name and first letter of profession in parenthesis
     CASE
-        WHEN (Occupation = "Doctor") THEN (Name) "(D)"
-        WHEN (Occupation = "Professor") THEN (Name) "(P)"
-        WHEN (Occupation = "Singer") THEN (Name) "(S)"
-        WHEN (Occupation = "Actor") THEN (Name) "(A)"
-        END as name_and_profession
-    (CASE )
+        WHEN (Occupation = "Doctor") THEN CONCAT(Name, "(D)")
+        WHEN (Occupation = "Professor") THEN CONCAT(Name, "(P)")
+        WHEN (Occupation = "Singer") THEN CONCAT(Name, "(S)")
+        WHEN (Occupation = "Actor") THEN CONCAT(Name, "(A)")
+        END AS TEXT
+FROM OCCUPATIONS)
+-- union all function to combine both created table expressions
+UNION ALL
+(SELECT CONCAT("There are a total of", " ", COUNT(Occupation), " ", LOWER(Occupation), "s.") AS TEXT
+FROM OCCUPATIONS
+GROUP BY Occupation)
+ORDER BY TEXT ASC;  -- i am ordering both created tables expressions by the same alias, "TEXT" which will output both tables ordered in alphabetical/numerical ascending order
         
