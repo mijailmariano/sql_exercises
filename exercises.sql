@@ -152,4 +152,34 @@ UNION ALL
 FROM OCCUPATIONS
 GROUP BY Occupation)
 ORDER BY TEXT ASC;  -- i am ordering both created tables expressions by the same alias, "TEXT" which will output both tables ordered in alphabetical/numerical ascending order
-        
+
+----
+-- date: wednesday, october 26th 2022
+
+-- Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. 
+-- The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+-- Note: Print NULL when there are no more names corresponding to an occupation.
+
+SELECT
+-- creating new column headers which are the occupations in the table
+    Doctor,
+    Professor,
+    Singer,
+    Actor
+-- next, I want to create the total number of rows for ea. profession found in the table
+-- this will act a the column that is called at the top of this query block
+FROM (
+    SELECT
+        NameOrder,
+        max(CASE Occupation WHEN 'Doctor' then Name end) AS Doctor,
+        max(CASE Occupation WHEN 'Professor' then Name end) AS Professor,
+        max(CASE Occupation WHEN 'Singer' then Name end) AS Singer,
+        max(CASE Occupation WHEN 'Actor' then Name end) AS Actor
+    FROM (
+            SELECT
+                Occupation,
+                Name,
+                ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name ASC) AS NameOrder
+            FROM Occupations) AS NameLists
+    GROUP BY NameOrder
+    ) AS Names;
