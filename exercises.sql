@@ -160,6 +160,13 @@ ORDER BY TEXT ASC;  -- i am ordering both created tables expressions by the same
 -- The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
 -- Note: Print NULL when there are no more names corresponding to an occupation.
 
+-- notes:
+-- there are two (2) columns; Name and Occupation
+-- ea. name is sorted alphabetically
+-- columns in this order: Doctor, Professor, Singer, Actor
+-- if the profession is not found, then Null -- continue to next name/profession
+-- I need to 1. specify Occupation column order, and then pivot
+
 SELECT
 -- creating new column headers which are the occupations in the table
     Doctor,
@@ -167,7 +174,7 @@ SELECT
     Singer,
     Actor
 -- next, I want to create the total number of rows for ea. profession found in the table
--- this will act a the column that is called at the top of this query block
+-- these will act as the columns that are called at and that are referenced at the top of this query
 FROM (
     SELECT
         NameOrder,
@@ -175,11 +182,13 @@ FROM (
         max(CASE Occupation WHEN 'Professor' then Name end) AS Professor,
         max(CASE Occupation WHEN 'Singer' then Name end) AS Singer,
         max(CASE Occupation WHEN 'Actor' then Name end) AS Actor
+    -- this is the 'FROM' statement that the above occupation name will referenced from
     FROM (
             SELECT
                 Occupation,
                 Name,
                 ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name ASC) AS NameOrder
             FROM Occupations) AS NameLists
+    -- group by the referenced occupation name order listed in the second* 'SELECT' statement
     GROUP BY NameOrder
     ) AS Names;
