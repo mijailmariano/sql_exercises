@@ -192,3 +192,59 @@ FROM (
     -- group by the referenced occupation name order listed in the second* 'SELECT' statement
     GROUP BY NameOrder
     ) AS Names;
+
+
+
+-- date: saturday, november 5th 2022
+-- We define an employee's total earnings to be their monthly (salary x months) worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. 
+-- Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as space-separated integers.
+
+-- today earnings == salary x number of tenured moths at company
+-- query 1: max today earnings for all employees
+-- query 2: total number of employees who have the max total earnings
+-- return max total earnins and total number of employees with this earnings
+
+-- similar to a python/pandas 'value_counts()' function
+-- 1. create a new column (salary*months) aliased as 'total_earnings'
+-- 2. create a second column which is the count of all records/employees
+-- 3. group by total_earnings which is the earnings and number of employee that have earned this amount
+-- 4. order by the total_earnings amount in descending order (from highest-lowest)
+-- 5. limit the query to only return the highest total-earnings value
+
+SELECT (salary*months) AS total_earnings, COUNT(*)
+FROM Employee
+    GROUP BY total_earnings
+        ORDER BY total_earnings DESC
+            LIMIT 1;
+
+'''Query the following two values from the STATION table:
+The sum of all values in LAT_N rounded to a scale of decimal places.
+The sum of all values in LONG_W rounded to a scale of decimal places.'''
+
+-- the sum of all values in lat_n rounded to a scale of 2 decimal places
+-- the sum of all values in long_w rounded to a scale of 2 decimal places
+
+SELECT ROUND(SUM(LAT_N), 2) AS "lat",
+            ROUND(SUM(LONG_W), 2) AS "lon"
+FROM STATION;
+
+-- Query the sum of Northern Latitudes (LAT_N) from STATION 
+-- having values greater than 38.7880 and less than 137.2345. 
+-- Truncate your answer to 4 decimal places.
+
+-- may require a round and sum function 
+-- additionally, will need to use a "where" function to filter for 
+-- values in between two distinct points
+
+SELECT ROUND(SUM(LAT_N), 4)
+FROM STATION
+    WHERE LAT_N BETWEEN 38.7880 AND 137.2345;
+
+-- Query the greatest value of the Northern Latitudes (LAT_N) 
+-- from STATION that is less than 137.2345. Truncate your answer to 4 decimal places.
+
+SELECT ROUND(LAT_N, 4)
+FROM STATION
+    WHERE LAT_N < 137.2345
+        ORDER BY LAT_N DESC
+            LIMIT 1;
