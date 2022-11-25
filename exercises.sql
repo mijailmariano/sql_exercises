@@ -248,3 +248,59 @@ FROM STATION
     WHERE LAT_N < 137.2345
         ORDER BY LAT_N DESC
             LIMIT 1;
+
+
+-- date: friday, november 25 2022
+-- Q1: Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is less than 137.2345
+-- Round your answer to 4 decimal places
+
+SELECT ROUND(LONG_W, 4)
+FROM STATION
+    WHERE LAT_N < 137.2345
+        ORDER BY LAT_N DESC
+            LIMIT 1;
+
+-- Q2: Query the smallest Northern Latitude (LAT_N) from STATION that is greater than 38.7780
+-- Round your answer to 4 decimal places
+
+SELECT ROUND(LAT_N, 4)
+FROM STATION
+    WHERE LAT_N > 38.7780
+        ORDER BY LAT_N ASC
+            LIMIT 1;
+
+-- Q3: Query the Western Longitude (LONG_W) 
+-- where the smallest Northern Latitude (LAT_N) in STATION is greater than 37.7780
+-- Round your answer to 4 decimal places
+
+SELECT ROUND(LONG_W, 4)
+FROM STATION 
+    WHERE LAT_N > 38.7780
+    -- will order the results starting with the smallest LAT_N and working up to the largest
+        ORDER BY LAT_N ASC
+            LIMIT 1;
+
+
+-- Q3:
+'''Consider P1(a,b) and P2(c,d) to be two points on a 2D plane.
+
+a happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
+b happens to equal the minimum value in Western Longitude (LONG_W in STATION).
+c happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
+d happens to equal the maximum value in Western Longitude (LONG_W in STATION).
+
+Query the Manhattan Distance between P1 and P2 points
+and and round it to a scale of 4 decimal places.'''
+
+-- where a == min(LAT_N)
+-- where b == min(LONG_W)
+-- where c == max(LAT_N)
+-- where d == max(LONG_W)
+
+-- manhattan distance is equal to (X1 - X2) + (Y1 - Y2)
+-- therefore, (a - c) + (b - d)
+
+SELECT 
+    -- where we can return the absolute 'distance' value using MYSQL 'ABS()' function
+    ABS(ROUND(((MIN(LAT_N) - MAX(LAT_N)) + (MIN(LONG_W) - MAX(LONG_W))), 4))
+FROM STATION;
