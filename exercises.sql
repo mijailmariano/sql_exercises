@@ -304,3 +304,45 @@ SELECT
     -- where we can return the absolute 'distance' value using MYSQL 'ABS()' function
     ABS(ROUND(((MIN(LAT_N) - MAX(LAT_N)) + (MIN(LONG_W) - MAX(LONG_W))), 4))
 FROM STATION;
+
+
+-- date: wednesday, november 30th 2022
+-- Q1:
+-- Given the CITY and COUNTRY tables, query the sum of the populations of all cities where the CONTINENT is 'Asia'.
+-- Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+-- Input Format
+-- The CITY and COUNTRY tables are described as follows: 
+
+SELECT SUM(CITY.POPULATION) AS "Asia_Total_Population"
+    FROM CITY 
+-- (inner join bc -- only want to return rows with matching values in the country id column)
+        INNER JOIN COUNTRY
+            ON CITY.COUNTRYCODE = COUNTRY.CODE
+                WHERE COUNTRY.CONTINENT = "Asia";
+
+-- Q2:
+SELECT CITY.NAME 
+    FROM CITY
+-- using the nutural "JOIN" as an inner join
+        JOIN COUNTRY
+            ON CITY.COUNTRYCODE = COUNTRY.CODE
+                WHERE COUNTRY.CONTINENT = "Africa";
+
+-- Q3:
+-- Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) and their respective average city populations (CITY.Population) rounded down to the nearest integer.
+-- Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+-- Input Format
+-- The CITY and COUNTRY tables are described as follows: 
+
+
+-- we may be able to use a "GROUP BY" function to accomplish this question
+-- let's start by calculating the average city population number and rounding this to a whole number
+SELECT COUNTRY.CONTINENT AS "Continent",
+    FLOOR(AVG(CITY.POPULATION)) AS "Average_City_Population"
+    FROM CITY
+        INNER JOIN COUNTRY
+            ON CITY.COUNTRYCODE = COUNTRY.CODE
+                GROUP BY COUNTRY.CONTINENT 
+
+
+-- You are given two tables: Students and Grades. Students contains three columns ID, Name and Marks(last question)
